@@ -53,16 +53,14 @@ pub fn part2(input: &str) -> u32 {
         .lines()
         .map(|line| {
             let mut matches = vec![];
-            line.chars().fold("".to_owned(), |acc, cur_char| {
-                let new_str = acc + cur_char.to_string().as_str();
-                if let Some(contained_word) =
-                    words.iter().find(|word| new_str.ends_with(word.string))
-                {
+            line.chars().fold("".to_owned(), |mut acc, cur_char| {
+                acc.push(cur_char);
+                if let Some(contained_word) = words.iter().find(|word| acc.ends_with(word.string)) {
                     matches.push(contained_word.numeric);
                 } else if let Some(numeric_val) = cur_char.to_digit(10) {
                     matches.push(numeric_val)
                 }
-                new_str
+                acc
             });
             matches
         })
@@ -106,6 +104,6 @@ mod test {
     #[test]
     fn p2_input_works() {
         let result = part2(REAL_INPUT);
-        assert_eq!(result, 11)
+        assert_eq!(result, 54676)
     }
 }
