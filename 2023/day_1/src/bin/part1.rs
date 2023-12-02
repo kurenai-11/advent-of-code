@@ -1,6 +1,6 @@
 fn main() {}
 
-fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u32 {
     input
         .lines()
         .map(|l| l.chars().filter_map(|v| v.to_digit(10)))
