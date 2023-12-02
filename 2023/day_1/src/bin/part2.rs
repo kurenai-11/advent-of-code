@@ -1,3 +1,7 @@
+pub const EXAMPLE1_INPUT: &str = include_str!("example.txt");
+pub const REAL_INPUT: &str = include_str!("input.txt");
+pub const EXAMPLE2_INPUT: &str = include_str!("example_2.txt");
+
 fn main() {
     let example1_result = part1(EXAMPLE1_INPUT);
     let example2_result = part2(EXAMPLE2_INPUT);
@@ -76,10 +80,6 @@ pub fn part2(input: &str) -> u32 {
         .map(|p| p.parse::<u32>().unwrap())
         .sum()
 }
-
-pub const EXAMPLE1_INPUT: &str = include_str!("example.txt");
-pub const REAL_INPUT: &str = include_str!("input.txt");
-pub const EXAMPLE2_INPUT: &str = include_str!("example_2.txt");
 
 #[cfg(test)]
 mod test {
