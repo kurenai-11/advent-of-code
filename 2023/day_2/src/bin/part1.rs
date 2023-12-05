@@ -6,36 +6,28 @@ fn main() {}
 pub fn part1(input: &str) -> u32 {
     input
         .lines()
-        .map(|line| line.split(": ").collect::<Vec<&str>>())
-        .map(|split_line| {
-            let game = split_line[0].split(' ').collect::<Vec<&str>>()[1]
-                .parse::<u32>()
-                .unwrap();
-            let rounds: Vec<&str> = split_line[1].split("; ").collect();
-            let mut valid = true;
-            for round in rounds {
-                if !valid {
-                    break;
-                }
-                let shows = round.split(", ").collect::<Vec<&str>>();
-                for show in shows {
-                    if !valid {
-                        break;
+        .filter_map(|line| {
+            let mut split_line = line.split(": ");
+            let game = split_line.next()?.split(' ').nth(1)?.parse::<u32>().ok()?;
+            let rounds = split_line.next()?.split("; ");
+            let valid = rounds
+                .flat_map(|round| round.split(", "))
+                .map(|show| {
+                    let mut cube_type = show.split(' ');
+                    let amount = cube_type.next()?.parse::<u32>().ok()?;
+                    let color_str = cube_type.next()?;
+                    match color_str {
+                        "red" => Some(amount <= 12),
+                        "green" => Some(amount <= 13),
+                        "blue" => Some(amount <= 14),
+                        _ => None,
                     }
-                    let cube_type = show.split(' ').collect::<Vec<&str>>();
-                    let (amount, color_str) = (cube_type[0].parse::<u32>().unwrap(), cube_type[1]);
-                    valid = match color_str {
-                        "red" => amount <= 12,
-                        "green" => amount <= 13,
-                        "blue" => amount <= 14,
-                        _ => panic!("unknown color, {}", color_str),
-                    };
-                }
-            }
+                })
+                .all(|x| x.unwrap_or(false));
             if valid {
-                game
+                Some(game)
             } else {
-                0
+                None
             }
         })
         .sum()
