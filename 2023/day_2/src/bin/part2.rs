@@ -41,6 +41,6 @@ mod test {
     #[test]
     fn input_works() {
         let result = part2(REAL_INPUT);
-        assert_eq!(result, 8);
+        assert_eq!(result, 79315);
     }
 }
