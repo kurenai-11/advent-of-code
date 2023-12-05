@@ -6,21 +6,18 @@ fn main() {}
 pub fn part1(input: &str) -> u32 {
     input
         .lines()
-        .map(|line| line.split(':').map(|p| p.trim()).collect::<Vec<&str>>())
+        .map(|line| line.split(": ").collect::<Vec<&str>>())
         .map(|split_line| {
-            let game = split_line[0]
-                .split(' ')
-                .map(|p| p.trim())
-                .collect::<Vec<&str>>()[1]
+            let game = split_line[0].split(' ').collect::<Vec<&str>>()[1]
                 .parse::<u32>()
                 .unwrap();
-            let rounds: Vec<&str> = split_line[1].split(';').map(|p| p.trim()).collect();
+            let rounds: Vec<&str> = split_line[1].split("; ").collect();
             let mut valid = true;
             for round in rounds {
                 if !valid {
                     break;
                 }
-                let shows = round.split(',').map(|p| p.trim()).collect::<Vec<&str>>();
+                let shows = round.split(", ").collect::<Vec<&str>>();
                 for show in shows {
                     if !valid {
                         break;
@@ -57,6 +54,6 @@ mod test {
     #[test]
     fn input_works() {
         let result = part1(REAL_INPUT);
-        assert_eq!(result, 8);
+        assert_eq!(result, 2085);
     }
 }

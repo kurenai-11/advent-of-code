@@ -6,12 +6,12 @@ fn main() {}
 pub fn part2(input: &str) -> u32 {
     input
         .lines()
-        .map(|line| line.split(':').nth(1).unwrap())
+        .map(|line| line.split(": ").nth(1).unwrap())
         .map(|rounds| {
-            let split_rounds: Vec<&str> = rounds.split(';').map(|p| p.trim()).collect();
+            let split_rounds: Vec<&str> = rounds.split("; ").collect();
             let (mut r, mut g, mut b) = (0, 0, 0);
             for round in split_rounds {
-                let shows = round.split(',').map(|p| p.trim()).collect::<Vec<&str>>();
+                let shows = round.split(", ").collect::<Vec<&str>>();
                 for show in shows {
                     let cube_type = show.split(' ').collect::<Vec<&str>>();
                     let (amount, color_str) = (cube_type[0].parse::<u32>().unwrap(), cube_type[1]);
