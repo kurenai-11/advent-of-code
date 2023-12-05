@@ -8,20 +8,16 @@ pub fn part2(input: &str) -> u32 {
         .lines()
         .map(|line| line.split(": ").nth(1).unwrap())
         .map(|rounds| {
-            let split_rounds: Vec<&str> = rounds.split("; ").collect();
             let (mut r, mut g, mut b) = (0, 0, 0);
-            for round in split_rounds {
-                let shows = round.split(", ").collect::<Vec<&str>>();
-                for show in shows {
-                    let cube_type = show.split(' ').collect::<Vec<&str>>();
-                    let (amount, color_str) = (cube_type[0].parse::<u32>().unwrap(), cube_type[1]);
-                    match color_str {
-                        "red" => r = r.max(amount),
-                        "green" => g = g.max(amount),
-                        "blue" => b = b.max(amount),
-                        _ => panic!("unknown color, {}", color_str),
-                    };
-                }
+            for show in rounds.split("; ").flat_map(|round| round.split(", ")) {
+                let mut cube_type = show.split(' ');
+                let amount = cube_type.next().unwrap().parse::<u32>().unwrap();
+                match cube_type.next().unwrap() {
+                    "red" => r = r.max(amount),
+                    "green" => g = g.max(amount),
+                    "blue" => b = b.max(amount),
+                    color => panic!("unknown color, {}", color),
+                };
             }
             r * g * b
         })
